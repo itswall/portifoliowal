@@ -1,0 +1,1053 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emerson Wallace — Desenvolvedor Backend Java</title>
+<meta name="description" content="Portfólio de Emerson Wallace Barcelos de Araújo: desenvolvedor backend Java, Spring Boot, APIs REST e AWS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Tokens from DESIGN.md (dark system) */
+  :root {
+    --color-obsidian: #000000;
+    --color-carbon: #080808;
+    --color-chalk: #f3f3f3;
+    --color-smoke: #9c9c9c;
+    --color-ash: #c1c1c1;
+    --color-graphite: #212121;
+    --color-iron: #474747;
+    --color-signal-white: #ffffff;
+    --color-compass-gold: #6f6759;
+    --color-pulse-green: #98ff38;
+
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --page-max-width: 1200px;
+    --gutter: clamp(16px, 4vw, 24px);
+    --section-gap: clamp(72px, 10vw, 160px);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body {
+    margin: 0;
+    background: var(--color-obsidian);
+    color: var(--color-chalk);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  img, svg { display: block; max-width: 100%; height: auto; }
+
+  .wrap {
+    width: 100%;
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* Type — fluid scaling */
+  h1, h2, h3 { font-weight: 400; margin: 0; overflow-wrap: break-word; word-break: break-word; }
+  h1 { font-size: clamp(32px, 8vw, 63px); line-height: 1.05; letter-spacing: -0.69px; }
+  h2 { font-size: clamp(26px, 5.5vw, 44px); line-height: 1.07; letter-spacing: -0.31px; }
+  h3 { font-size: clamp(16px, 2.5vw, 18px); line-height: 1.31; }
+  .lead { font-size: clamp(16px, 2.5vw, 21px); line-height: 1.4; color: var(--color-smoke); margin: 24px 0 0; max-width: min(640px, 100%); }
+  .meta {
+    font-family: var(--font-mono);
+    font-size: clamp(11px, 1.5vw, 13px);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+  p { margin: 0; color: var(--color-smoke); }
+
+  /* Buttons: pill = primary only; ghost = 8px radius */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; text-transform: uppercase; letter-spacing: 0.02em;
+    padding: 12px 24px; border-radius: 9999px;
+    border: 1px solid var(--color-signal-white);
+    background: var(--color-signal-white); color: var(--color-obsidian);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.22);
+    opacity: 0.95;
+  }
+  .btn:active { transform: translateY(0); }
+  .btn-ghost {
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--color-chalk);
+    border-radius: 8px; padding: 10px 20px;
+    border: 1px solid var(--color-iron);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-signal-white);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+    color: var(--color-signal-white);
+  }
+  .btn-ghost:active { transform: translateY(0); }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(24px, 5vw, 40px); }
+
+  /* Nav with Frosted Glass */
+  header.nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--color-graphite);
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  header.nav.nav-scrolled {
+    background: rgba(0, 0, 0, 0.9);
+    border-bottom-color: rgba(71, 71, 71, 0.6);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: center;
+    height: 64px; gap: clamp(16px, 3vw, 32px);
+  }
+  .nav-links {
+    display: flex; align-items: center; justify-content: center;
+    gap: clamp(12px, 2.5vw, 28px);
+  }
+  .nav-links a {
+    font-size: clamp(12px, 1.6vw, 14px); text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-smoke);
+    white-space: nowrap;
+    transition: color .25s ease;
+    position: relative;
+    padding: 6px 0;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 1px;
+    background: var(--color-chalk);
+    transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .nav-links a:hover { color: var(--color-chalk); }
+  .nav-links a:hover::after {
+    width: 100%;
+    left: 0;
+  }
+
+  /* Language toggle button */
+  .lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--color-carbon);
+    border: 1px solid var(--color-graphite);
+    border-radius: 9999px;
+    padding: 6px 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-smoke);
+    cursor: pointer;
+    transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    flex-shrink: 0;
+  }
+  .lang-btn:hover {
+    border-color: var(--color-iron);
+    color: var(--color-chalk);
+    background: #141414;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+  .lang-btn:active { transform: translateY(0); }
+  .lang-btn .lang-code {
+    transition: color .2s ease;
+  }
+  .lang-btn .lang-code.active {
+    color: var(--color-signal-white);
+    font-weight: 500;
+  }
+  .lang-btn .lang-divider {
+    color: var(--color-iron);
+    font-size: 10px;
+  }
+
+  @media (max-width: 600px) {
+    .nav-inner { gap: 10px; }
+    .nav-links { gap: 10px; }
+    .nav-links a { font-size: 11px; }
+    .lang-btn { padding: 4px 10px; font-size: 11px; }
+  }
+
+  /* Ambient Cursor Glow */
+  .ambient-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 650px;
+    height: 650px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.035) 0%, rgba(111, 103, 89, 0.02) 40%, transparent 70%);
+    filter: blur(50px);
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    will-change: transform;
+  }
+  body:hover .ambient-glow {
+    opacity: 1;
+  }
+
+  /* Hero Animations */
+  @keyframes heroEnter {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes heroFloat {
+    0% {
+      transform: scale(1) translateY(0);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.025) translateY(-8px);
+      opacity: 0.82;
+    }
+    100% {
+      transform: scale(1) translateY(0);
+      opacity: 0.7;
+    }
+  }
+  .hero h1 {
+    animation: heroEnter 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero .lead {
+    animation: heroEnter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  }
+  .hero .btn-row {
+    animation: heroEnter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  }
+  .hands-wrap {
+    width: 100%; margin-top: clamp(40px, 6vw, 100px); position: relative; overflow: hidden;
+    aspect-ratio: 16 / 7;
+    max-height: 70vh;
+    -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+    animation: heroEnter 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+  }
+  .hands {
+    width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    pointer-events: none; opacity: .7; mix-blend-mode: screen;
+    animation: heroFloat 14s ease-in-out infinite;
+    transform-origin: center center;
+    will-change: transform, opacity;
+  }
+  .hero > .wrap { position: relative; z-index: 1; }
+
+  /* About */
+  .about-grid { display: grid; gap: clamp(32px, 5vw, 48px); grid-template-columns: 1fr; }
+  .about-grid p + p { margin-top: 16px; }
+  .about-grid p { font-size: clamp(16px, 2vw, 18px); line-height: 1.6; }
+  .about-side { display: grid; gap: 24px; align-content: start; }
+  .photo {
+    position: relative; margin: 0; aspect-ratio: 4 / 5; overflow: hidden;
+    border: 1px solid var(--color-iron); border-radius: 8px;
+    box-shadow: 6px 5px 5px var(--color-iron);
+    display: grid; place-items: center; background: var(--color-carbon);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+  }
+  .photo:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: var(--color-chalk);
+    box-shadow: 8px 10px 24px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 255, 255, 0.05);
+  }
+  .photo img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .photo:hover img {
+    transform: scale(1.04);
+  }
+  .photo figcaption { padding: 16px; text-align: center; color: var(--color-compass-gold); font-family: var(--font-mono); font-size: 13px; }
+  .facts {
+    border: 1px solid var(--color-graphite); border-radius: 8px; padding: clamp(20px, 3vw, 32px);
+    display: grid; gap: 24px; align-content: start;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .facts:hover {
+    border-color: #383838;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+  .fact .meta { margin-bottom: 4px; }
+  .fact div { color: var(--color-chalk); font-size: 16px; }
+
+  /* Projects — modular 2-column grid, easily expandable */
+  .projects {
+    display: grid;
+    gap: 0;
+    grid-template-columns: 1fr;
+    border: 1px solid var(--color-graphite);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .project {
+    display: flex; flex-direction: column; justify-content: space-between;
+    gap: 24px; padding: clamp(24px, 4vw, 48px) clamp(20px, 3vw, 32px);
+    border-top: 1px solid var(--color-graphite);
+    border-right: 0;
+    transition: background 0.35s ease, border-color 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+    position: relative;
+  }
+  .project:first-child { border-top: 0; }
+  .project:hover {
+    background: #0d0d0d;
+    border-color: #383838;
+    transform: translateY(-3px);
+    z-index: 2;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+  }
+  .project-top { display: flex; flex-direction: column; gap: 12px; }
+  .project-icon {
+    width: 32px; height: 32px; stroke: var(--color-compass-gold);
+    fill: none; stroke-width: 1.5; flex-shrink: 0;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.35s ease, filter 0.35s ease;
+  }
+  .project:hover .project-icon {
+    transform: translateY(-4px) scale(1.1);
+    stroke: var(--color-signal-white);
+    filter: drop-shadow(0 0 10px rgba(111, 103, 89, 0.5));
+  }
+  .project h3 {
+    font-size: clamp(14px, 2vw, 16px); text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-chalk);
+    transition: color 0.3s ease;
+  }
+  .project:hover h3 {
+    color: var(--color-signal-white);
+  }
+  .project .lang-label { font-family: var(--font-mono); font-size: clamp(11px, 1.5vw, 13px); text-transform: uppercase; color: var(--color-smoke); }
+  .project p { font-size: clamp(13px, 1.8vw, 14px); line-height: 1.5; }
+  .project-bottom { display: flex; flex-direction: column; gap: 12px; margin-top: auto; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-family: var(--font-mono); font-size: 12px; text-transform: uppercase;
+    border: 1px solid var(--color-graphite); border-radius: 4px; padding: 4px 8px; color: var(--color-smoke);
+    transition: all 0.25s ease;
+  }
+  .project:hover .tag {
+    border-color: #383838;
+    color: var(--color-ash);
+  }
+  .project-link {
+    font-size: 14px; color: var(--color-chalk); text-transform: uppercase; letter-spacing: 0.02em;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: color .2s ease;
+  }
+  .project-link span {
+    display: inline-block;
+    transition: transform 0.25s ease;
+  }
+  .project-link:hover { color: var(--color-signal-white); }
+  .project-link:hover span {
+    transform: translateX(5px);
+  }
+
+  /* Skills grid — precisely bordered grid with languages card included */
+  .skills-grid {
+    display: grid;
+    gap: 0;
+    grid-template-columns: 1fr;
+    border: 1px solid var(--color-graphite);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .skill-card {
+    padding: clamp(20px, 3vw, 32px);
+    border-top: 1px solid var(--color-graphite);
+    border-right: 0;
+    display: grid;
+    gap: 16px;
+    align-content: start;
+    transition: background 0.35s ease, border-color 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+    position: relative;
+  }
+  .skill-card:first-child { border-top: 0; }
+  .skill-card:hover {
+    background: #0d0d0d;
+    border-color: #383838;
+    transform: translateY(-3px);
+    z-index: 2;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+  }
+  .skill-card h3 {
+    font-size: 14px; text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-chalk);
+    transition: color 0.3s ease;
+  }
+  .skill-card:hover h3 {
+    color: var(--color-signal-white);
+  }
+  .icon {
+    width: 28px; height: 28px; stroke: var(--color-compass-gold); fill: none; stroke-width: 1.5; flex-shrink: 0;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.35s ease, filter 0.35s ease;
+  }
+  .skill-card:hover .icon {
+    transform: translateY(-4px) scale(1.1);
+    stroke: var(--color-signal-white);
+    filter: drop-shadow(0 0 10px rgba(111, 103, 89, 0.5));
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-size: clamp(12px, 1.8vw, 14px); color: var(--color-ash);
+    border: 1px solid var(--color-graphite); border-radius: 8px; padding: 6px 12px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+    background: transparent;
+  }
+  .chip:hover {
+    color: var(--color-signal-white);
+    border-color: var(--color-iron);
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Idiomas wide card inside skills */
+  .skill-card-wide {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .skill-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Contact */
+  .contact-list { display: grid; gap: 0; grid-template-columns: 1fr; border: 1px solid var(--color-graphite); border-radius: 8px; overflow: hidden; }
+  .contact-item {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    padding: clamp(16px, 3vw, 24px) clamp(20px, 3vw, 32px); border-top: 1px solid var(--color-graphite);
+    flex-wrap: wrap;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+  .contact-item:first-child { border-top: 0; }
+  .contact-item:hover {
+    background: #0d0d0d;
+    padding-left: clamp(24px, 3.5vw, 42px);
+  }
+  .contact-item .label {
+    color: var(--color-chalk); font-size: 16px;
+    transition: color 0.25s ease;
+  }
+  .contact-item .value {
+    color: var(--color-smoke); font-family: var(--font-mono); font-size: clamp(11px, 1.5vw, 13px); overflow-wrap: break-word; word-break: break-all;
+    transition: color 0.25s ease;
+  }
+  .contact-item:hover .label {
+    color: var(--color-signal-white);
+  }
+  .contact-item:hover .value {
+    color: var(--color-chalk);
+  }
+  .placeholder { color: var(--color-compass-gold); }
+
+  /* Scroll Reveal Classes */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .contact-item .label { color: var(--color-chalk); font-size: 16px; }
+  .contact-item .value { color: var(--color-smoke); font-family: var(--font-mono); font-size: clamp(11px, 1.5vw, 13px); overflow-wrap: break-word; word-break: break-all; }
+  .placeholder { color: var(--color-compass-gold); }
+
+  footer {
+    margin-top: var(--section-gap);
+    border-top: 1px solid var(--color-graphite);
+    padding: 32px 0;
+  }
+  .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .foot p { font-size: 13px; }
+
+  /* Breakpoints */
+  @media (min-width: 720px) {
+    .about-grid { grid-template-columns: 1.4fr 1fr; }
+    
+    /* Projects: 2 columns, clean borders for any number of projects */
+    .projects { grid-template-columns: 1fr 1fr; }
+    .project { border-top: 1px solid var(--color-graphite); border-right: 0; }
+    .project:nth-child(-n+2) { border-top: 0; }
+    .project:nth-child(odd) { border-right: 1px solid var(--color-graphite); }
+
+    /* Skills: 2 columns, row 1 no top border, odd items have right border */
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill-card { border-top: 1px solid var(--color-graphite); border-right: 0; }
+    .skill-card:nth-child(-n+2) { border-top: 0; }
+    .skill-card:nth-child(odd) { border-right: 1px solid var(--color-graphite); }
+    .skill-card-wide {
+      grid-column: 1 / -1;
+      border-top: 1px solid var(--color-graphite);
+      border-right: 0;
+    }
+
+  }
+
+  @media (min-width: 1024px) {
+    /* Skills: 3 columns.
+       Row 1: cards 1, 2, 3 have border-top: 0.
+       Col 1 & 2: cards not divisible by 3 (not :nth-child(3n)) have border-right: 1px solid.
+       This explicitly ensures Card 2 (Bancos de dados) has a border-right dividing it from Card 3 (Cloud).
+       Card 7 (Idiomas) spans all 3 columns at the bottom.
+    */
+    .skills-grid { grid-template-columns: repeat(3, 1fr); }
+    .skill-card {
+      border-top: 1px solid var(--color-graphite);
+      border-right: 1px solid var(--color-graphite);
+    }
+    .skill-card:nth-child(-n+3) { border-top: 0; }
+    .skill-card:nth-child(3n) { border-right: 0; }
+    .skill-card-wide {
+      grid-column: 1 / -1;
+      border-top: 1px solid var(--color-graphite);
+      border-right: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .ambient-glow {
+      display: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient-glow" id="ambient-glow" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <nav class="nav-links" aria-label="Seções">
+      <a href="#sobre" data-i18n="nav_about">Sobre</a>
+      <a href="#projetos" data-i18n="nav_projects">Projetos</a>
+      <a href="#skills" data-i18n="nav_skills">Skills</a>
+      <a href="#contato" data-i18n="nav_contact">Onde me encontrar</a>
+    </nav>
+    <!-- Language toggle button -->
+    <button id="lang-toggle" class="lang-btn" type="button" aria-label="Mudar idioma / Change language">
+      <span class="lang-code active" data-lang-opt="pt">PT</span>
+      <span class="lang-divider">/</span>
+      <span class="lang-code" data-lang-opt="en">EN</span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap">
+      <h1 style="font-family: Bradley Hand">Emerson Wallace Barcelos de Araújo</h1>
+      <p class="lead" data-i18n="hero_lead">Desenvolvedor backend Java focado em Spring Boot, APIs REST e infraestrutura na AWS. Recife, Pernambuco — Brasil.</p>
+      <div class="btn-row">
+        <a class="btn" href="#projetos" data-i18n="hero_btn_projects">Ver projetos</a>
+        <a class="btn btn-ghost" href="#contato" data-i18n="hero_btn_contact">Entrar em contato</a>
+      </div>
+    </div>
+    <!-- Hands image below hero content, spanning full width like Hyperstudio's dot-map -->
+    <div class="hands-wrap">
+      <img class="hands" src="hero-hands.avif" alt="" aria-hidden="true">
+    </div>
+  </div>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="meta" data-i18n="about_meta">01 — Sobre</span>
+        <br>
+        <h2 data-i18n="about_title">Backend com foco em clareza e confiabilidade.</h2>
+        <br>
+      </div>
+      <div class="about-grid reveal">
+        <div>
+          <p data-i18n="about_p1">Sou estudante de Ciência da Computação na Universidade Maurício de Nassau (2023 — presente) e desenvolvedor backend Java júnior. Construo APIs REST com Java, Spring Boot e bancos relacionais, com autenticação via JWT e documentação com Swagger/OpenAPI.</p>
+          <p data-i18n="about_p2">Tenho experiência de equipe em metodologias ágeis (Scrum, Kanban e XP), e estudo computação em nuvem na AWS, com a certificação AWS Certified Cloud Practitioner. Também trabalho com testes automatizados, Docker e Git no dia a dia.</p>
+        </div>
+        <div class="about-side">
+          <figure class="photo">
+            <img src="foto.jpg" alt="Foto de Emerson Wallace" onerror="this.remove()">
+          </figure>
+          <div class="facts" aria-label="Resumo">
+            <div class="fact"><span class="meta" data-i18n="fact_role_label">Cargo</span><div data-i18n="fact_role_val">Desenvolvedor Backend Java Júnior</div></div>
+            <div class="fact"><span class="meta" data-i18n="fact_loc_label">Localização</span><div data-i18n="fact_loc_val">Recife, PE — Brasil</div></div>
+            <div class="fact"><span class="meta" data-i18n="fact_edu_label">Formação</span><div data-i18n="fact_edu_val">Bacharelado em Ciência da Computação · UNINASSAU</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+  </section>
+
+  <!-- PROJETOS -->
+  <section id="projetos">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="meta" data-i18n="projects_meta">02 — Projetos</span>
+        <br>
+        <h2 data-i18n="projects_title">Projetos</h2>
+        <br>
+      </div>
+      <div class="projects">
+        <!-- PROJETO 1 -->
+        <article class="project reveal">
+          <div class="project-top">
+            <svg class="project-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v4H4zM4 10h16v4H4zM4 16h16v4H4z"/></svg>
+            <h3>Todo-List-API (Spring Boot)</h3>
+            <span class="lang-label">Java</span>
+          </div>
+          <p data-i18n="proj1_desc">API RESTful de lista de tarefas com Java 21, Spring Boot, autenticação JWT e PostgreSQL.</p>
+          <div class="project-bottom">
+            <div class="tags"><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">JWT</span><span class="tag">PostgreSQL</span></div>
+            <a class="project-link" href="https://github.com/itswall/Todo-List-API---Spring-boot-" target="_blank" rel="noopener">
+              <span data-i18n="view_github">Ver no GitHub</span> →
+            </a>
+          </div>
+        </article>
+
+        <!-- PROJETO 2 -->
+        <article class="project reveal">
+          <div class="project-top">
+            <svg class="project-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <h3>LoadForge</h3>
+            <span class="lang-label" data-i18n="proj2_label">Testes de carga</span>
+          </div>
+          <p data-i18n="proj2_desc">Plataforma de testes de carga (SRE — Stress &amp; Resilience Evaluator) com motor paralelo de requisições.</p>
+          <div class="project-bottom">
+            <div class="tags"><span class="tag">Python</span><span class="tag" data-i18n="proj2_tag_load">Testes de carga</span><span class="tag">IA</span></div>
+            <a class="project-link" href="https://github.com/itswall/sre-fabrica-de-software" target="_blank" rel="noopener">
+              <span data-i18n="view_github">Ver no GitHub</span> →
+            </a>
+          </div>
+        </article>
+
+        <!-- PROJETO 3 -->
+        <article class="project reveal">
+          <div class="project-top">
+            <svg class="project-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+            <h3>BetinaApp</h3>
+            <span class="lang-label" data-i18n="proj3_label">Fork · Hackathon EDScript</span>
+          </div>
+          <p data-i18n="proj3_desc">Assistente virtual de apostas desenvolvido durante o Hackathon EDScript, onde recebeu o prêmio de melhor modelo de negócio.</p>
+          <div class="project-bottom">
+            <div class="tags"><span class="tag">Python</span><span class="tag">IA</span></div>
+            <a class="project-link" href="https://github.com/itswall/BetinaApp" target="_blank" rel="noopener">
+              <span data-i18n="view_github">Ver no GitHub</span> →
+            </a>
+          </div>
+        </article>
+
+        <!-- PROJETO 4 -->
+        <article class="project reveal">
+          <div class="project-top">
+            <svg class="project-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+            <h3>Chess Game (Java)</h3>
+            <span class="lang-label">Java</span>
+          </div>
+          <p data-i18n="proj4_desc">Jogo de xadrez completo desenvolvido em Java puro com aplicação de Programação Orientada a Objetos e regras clássicas no terminal.</p>
+          <div class="project-bottom">
+            <div class="tags"><span class="tag">Java</span><span class="tag">POO</span></div>
+            <a class="project-link" href="https://github.com/itswall/chess-game-java" target="_blank" rel="noopener">
+              <span data-i18n="view_github">Ver no GitHub</span> →
+            </a>
+          </div>
+        </article>
+
+        <!-- ===================================================================
+             COMO ADICIONAR UM NOVO PROJETO:
+             Basta duplicar o bloco <article class="project">...</article> abaixo,
+             preencher o título, descrição, tags e link.
+             O layout em grid se ajustará automaticamente!
+             =================================================================== -->
+        <!--
+        <article class="project">
+          <div class="project-top">
+            <svg class="project-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <h3>Nome do Projeto</h3>
+            <span class="lang-label">Java / Spring Boot</span>
+          </div>
+          <p>Descrição detalhada do projeto, problema resolvido e arquitetura.</p>
+          <div class="project-bottom">
+            <div class="tags"><span class="tag">Java</span><span class="tag">AWS</span><span class="tag">Docker</span></div>
+            <a class="project-link" href="https://github.com/itswall/SEU-REPOSITORIO" target="_blank" rel="noopener">
+              <span data-i18n="view_github">Ver no GitHub</span> →
+            </a>
+          </div>
+        </article>
+        -->
+
+      </div>
+    </div>
+    <br>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="meta" data-i18n="skills_meta">03 — Skills</span>
+        <br>
+        <h2 data-i18n="skills_title">Ferramentas que uso no dia a dia.</h2>
+        <br>
+      </div>
+      <div class="skills-grid">
+        <!-- 1: Backend -->
+        <div class="skill-card reveal">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v4H4zM4 10h16v4H4zM4 16h16v4H4z"/></svg>
+          <h3 data-i18n="skill_backend">Backend</h3>
+          <div class="chips"><span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">APIs REST</span><span class="chip">POO</span><span class="chip" data-i18n="chip_micro">Microsserviços</span><span class="chip">Webhooks</span><span class="chip">FastAPI</span><span class="chip">Python</span></div>
+        </div>
+
+        <!-- 2: Bancos de dados -->
+        <div class="skill-card reveal">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+          <h3 data-i18n="skill_db">Bancos de dados</h3>
+          <div class="chips"><span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">MongoDB</span></div>
+        </div>
+
+        <!-- 3: Cloud e ferramentas -->
+        <div class="skill-card reveal">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1A4 4 0 0 1 17 18z"/></svg>
+          <h3 data-i18n="skill_cloud">Cloud e ferramentas</h3>
+          <div class="chips"><span class="chip">AWS (EC2, S3)</span><span class="chip">Docker</span><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Linux</span><span class="chip">Windows</span><span class="chip" data-i18n="chip_net">Redes</span></div>
+        </div>
+
+        <!-- 4: Metodologias -->
+        <div class="skill-card reveal">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h16"/></svg>
+          <h3 data-i18n="skill_method">Metodologias</h3>
+          <div class="chips"><span class="chip">Scrum</span><span class="chip">Kanban</span><span class="chip">XP</span><span class="chip">Trello</span></div>
+        </div>
+
+        <!-- 5: Qualidade -->
+        <div class="skill-card reveal">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4 10-10"/></svg>
+          <h3 data-i18n="skill_quality">Qualidade</h3>
+          <div class="chips"><span class="chip" data-i18n="chip_auto_tests">Testes automatizados</span><span class="chip" data-i18n="chip_load_tests">Testes de carga</span><span class="chip">Swagger / OpenAPI</span><span class="chip">JWT</span><span class="chip">Spring Security</span></div>
+        </div>
+
+        <!-- 6: Front-end e outros -->
+        <div class="skill-card reveal">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/></svg>
+          <h3 data-i18n="skill_frontend">Front-end e outros</h3>
+          <div class="chips"><span class="chip">React</span><span class="chip">Angular</span><span class="chip">TypeScript</span><span class="chip" data-i18n="chip_func_prog">Programação funcional</span><span class="chip">IA Generativa</span></div>
+        </div>
+
+        <!-- 7: Idiomas (Box integrada na grid de skills) -->
+        <div class="skill-card skill-card-wide reveal">
+          <div class="skill-head">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <h3 data-i18n="skill_langs">Idiomas</h3>
+          </div>
+          <div class="chips">
+            <span class="chip" data-i18n="chip_pt">Português — nativo</span>
+            <span class="chip" data-i18n="chip_en">Inglês — avançado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+  </section>
+
+  <!-- ONDE ME ENCONTRAR -->
+  <section id="contato">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="meta" data-i18n="contact_meta">04 — Onde me encontrar</span>
+        <br>
+        <h2 data-i18n="contact_title">Vamos conversar.</h2>
+        <br>
+      </div>
+      <div class="contact-list reveal">
+        <a class="contact-item" href="mailto:Wallaceknn@gmail.com">
+          <span class="label" data-i18n="contact_email">E-mail</span>
+          <span class="value placeholder">Wallaceknn@gmail.com</span>
+        </a>
+        <a class="contact-item" href="https://github.com/itswall" target="_blank" rel="noopener">
+          <span class="label">GitHub</span>
+          <span class="value">github.com/itswall</span>
+        </a>
+        <a class="contact-item" href="https://www.linkedin.com/in/emersnwall/" target="_blank" rel="noopener">
+          <span class="label">LinkedIn</span>
+          <span class="value placeholder">www.linkedin.com/in/emersnwall</span>
+        </a>
+        <a class="contact-item" href="docs/CV_Emerson Wallace.pdf" target="_blank" rel="noopener">
+          <span class="label" data-i18n="contact_cv">Currículo (PDF)</span>
+          <span class="value placeholder" data-i18n="contact_cv_btn">Clique para acessar</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p>© <span id="year"></span> Emerson Wallace Barcelos de Araújo</p>
+    <p class="meta" data-i18n="footer_loc">Recife, PE · Brasil</p>
+  </div>
+</footer>
+
+<script>
+  // Dicionário de tradução PT / EN
+  const translations = {
+    pt: {
+      doc_title: "Emerson Wallace — Desenvolvedor Backend Java",
+      nav_about: "Sobre",
+      nav_projects: "Projetos",
+      nav_skills: "Skills",
+      nav_contact: "Onde me encontrar",
+      nav_cta: "Entrar em contato",
+      hero_lead: "Desenvolvedor backend Java focado em Spring Boot, APIs REST e infraestrutura na AWS. Recife, Pernambuco — Brasil.",
+      hero_btn_projects: "Ver projetos",
+      hero_btn_contact: "Entrar em contato",
+      about_meta: "01 — Sobre",
+      about_title: "Backend com foco em clareza e confiabilidade.",
+      about_p1: "Sou estudante de Ciência da Computação na Universidade Maurício de Nassau (2023 — presente) e desenvolvedor backend Java júnior. Construo APIs REST com Java, Spring Boot e bancos relacionais, com autenticação via JWT e documentação com Swagger/OpenAPI.",
+      about_p2: "Tenho experiência de equipe em metodologias ágeis (Scrum, Kanban e XP), e estudo computação em nuvem na AWS, com a certificação AWS Certified Cloud Practitioner. Também trabalho com testes automatizados, Docker e Git no dia a dia.",
+      fact_role_label: "Cargo",
+      fact_role_val: "Desenvolvedor Backend Java Júnior",
+      fact_loc_label: "Localização",
+      fact_loc_val: "Recife, PE — Brasil",
+      fact_edu_label: "Formação",
+      fact_edu_val: "Bacharelado em Ciência da Computação · UNINASSAU",
+      projects_meta: "02 — Projetos",
+      projects_title: "Projetos",
+      proj1_desc: "API RESTful de lista de tarefas com Java 21, Spring Boot, autenticação JWT e PostgreSQL.",
+      proj2_label: "Testes de carga",
+      proj2_desc: "Plataforma de testes de carga (SRE — Stress & Resilience Evaluator) com motor paralelo de requisições.",
+      proj2_tag_load: "Testes de carga",
+      proj3_label: "Fork · Hackathon EDScript",
+      proj3_desc: "Assistente virtual de apostas desenvolvido durante o Hackathon EDScript, onde recebeu o prêmio de melhor modelo de negócio.",
+      proj4_desc: "Jogo de xadrez completo desenvolvido em Java puro com aplicação de Programação Orientada a Objetos e regras clássicas no terminal.",
+      view_github: "Ver no GitHub",
+      skills_meta: "03 — Skills",
+      skills_title: "Ferramentas que uso no dia a dia.",
+      skill_backend: "Backend",
+      skill_db: "Bancos de dados",
+      skill_cloud: "Cloud e ferramentas",
+      skill_method: "Metodologias",
+      skill_quality: "Qualidade",
+      skill_frontend: "Front-end e outros",
+      skill_langs: "Idiomas",
+      chip_micro: "Microsserviços",
+      chip_net: "Redes",
+      chip_auto_tests: "Testes automatizados",
+      chip_load_tests: "Testes de carga",
+      chip_func_prog: "Programação funcional",
+      chip_pt: "Português — nativo",
+      chip_en: "Inglês — avançado",
+      contact_meta: "04 — Onde me encontrar",
+      contact_title: "Vamos conversar.",
+      contact_email: "E-mail",
+      contact_cv: "Currículo (PDF)",
+      contact_cv_btn: "Clique para acessar",
+      footer_loc: "Recife, PE · Brasil"
+    },
+    en: {
+      doc_title: "Emerson Wallace — Java Backend Developer",
+      nav_about: "About",
+      nav_projects: "Projects",
+      nav_skills: "Skills",
+      nav_contact: "Contact",
+      nav_cta: "Get in touch",
+      hero_lead: "Java backend developer focused on Spring Boot, REST APIs, and AWS infrastructure. Recife, Pernambuco — Brazil.",
+      hero_btn_projects: "View projects",
+      hero_btn_contact: "Get in touch",
+      about_meta: "01 — About",
+      about_title: "Backend focused on clarity and reliability.",
+      about_p1: "I am a Computer Science student at Universidade Maurício de Nassau (2023 — present) and a junior Java backend developer. I build RESTful APIs with Java, Spring Boot, and relational databases, with JWT authentication and Swagger/OpenAPI documentation.",
+      about_p2: "I have team experience in agile methodologies (Scrum, Kanban, and XP), and I study cloud computing on AWS, holding the AWS Certified Cloud Practitioner certification. I also work with automated testing, Docker, and Git daily.",
+      fact_role_label: "Role",
+      fact_role_val: "Junior Java Backend Developer",
+      fact_loc_label: "Location",
+      fact_loc_val: "Recife, PE — Brazil",
+      fact_edu_label: "Education",
+      fact_edu_val: "B.S. in Computer Science · UNINASSAU",
+      projects_meta: "02 — Projects",
+      projects_title: "Projects.",
+      proj1_desc: "RESTful task management API with Java 21, Spring Boot, JWT authentication, and PostgreSQL.",
+      proj2_label: "Load testing",
+      proj2_desc: "Load testing platform (SRE — Stress & Resilience Evaluator) with a parallel request engine.",
+      proj2_tag_load: "Load testing",
+      proj3_label: "Fork · EDScript Hackathon",
+      proj3_desc: "Virtual betting assistant developed during the EDScript Hackathon, where it won the best business model award.",
+      proj4_desc: "Complete chess game developed in pure Java applying Object-Oriented Programming and classic rules in the terminal.",
+      view_github: "View on GitHub",
+      skills_meta: "03 — Skills",
+      skills_title: "Tools I use on a daily basis.",
+      skill_backend: "Backend",
+      skill_db: "Databases",
+      skill_cloud: "Cloud & Tools",
+      skill_method: "Methodologies",
+      skill_quality: "Quality",
+      skill_frontend: "Front-end & Others",
+      skill_langs: "Languages",
+      chip_micro: "Microservices",
+      chip_net: "Networking",
+      chip_auto_tests: "Automated testing",
+      chip_load_tests: "Load testing",
+      chip_func_prog: "Functional programming",
+      chip_pt: "Portuguese — native",
+      chip_en: "English — advanced",
+      contact_meta: "04 — Contact",
+      contact_title: "Let's connect.",
+      contact_email: "Email",
+      contact_cv: "Resume (PDF)",
+      contact_cv_btn: "Click to view",
+      footer_loc: "Recife, PE · Brazil"
+    }
+  };
+
+  let currentLang = localStorage.getItem('portfolio_lang') || 'pt';
+
+  function applyLanguage(lang) {
+    currentLang = lang;
+    const bundle = translations[lang] || translations.pt;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (bundle[key]) {
+        el.textContent = bundle[key];
+      }
+    });
+
+    document.documentElement.lang = lang === 'en' ? 'en' : 'pt-BR';
+    document.title = bundle.doc_title;
+
+    // Atualiza o estado visual do botão
+    const ptOpt = document.querySelector('[data-lang-opt="pt"]');
+    const enOpt = document.querySelector('[data-lang-opt="en"]');
+    if (ptOpt && enOpt) {
+      ptOpt.classList.toggle('active', lang === 'pt');
+      enOpt.classList.toggle('active', lang === 'en');
+    }
+
+    localStorage.setItem('portfolio_lang', lang);
+  }
+
+  // Configuração do botão de alternar idioma
+  const langToggleBtn = document.getElementById('lang-toggle');
+  if (langToggleBtn) {
+    langToggleBtn.addEventListener('click', () => {
+      const nextLang = currentLang === 'pt' ? 'en' : 'pt';
+      applyLanguage(nextLang);
+    });
+  }
+
+  // Inicializa com o idioma salvo ou padrão
+  applyLanguage(currentLang);
+
+  // Ano dinâmico no rodapé
+  const yearEl = document.getElementById('year');
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
+
+  // Efeito de rolagem suave na barra de navegação
+  const navHeader = document.querySelector('header.nav');
+  window.addEventListener('scroll', () => {
+    if (navHeader) {
+      navHeader.classList.toggle('nav-scrolled', window.scrollY > 20);
+    }
+  }, { passive: true });
+
+  // IntersectionObserver para reveal suave com stagger
+  const revealElements = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    revealElements.forEach((el, index) => {
+      if (el.classList.contains('project') || el.classList.contains('skill-card')) {
+        const delay = (index % 3) * 0.07;
+        el.style.transitionDelay = `${delay}s`;
+      }
+      revealObserver.observe(el);
+    });
+  } else {
+    revealElements.forEach(el => el.classList.add('active'));
+  }
+
+  // Luz ambiente suave que acompanha o cursor (Canvas Glow)
+  const ambientGlow = document.getElementById('ambient-glow');
+  if (ambientGlow && window.matchMedia('(pointer: fine)').matches) {
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let currentX = mouseX;
+    let currentY = mouseY;
+    let isTicking = false;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (!isTicking) {
+        isTicking = true;
+        requestAnimationFrame(updateAmbientGlow);
+      }
+    }, { passive: true });
+
+    function updateAmbientGlow() {
+      currentX += (mouseX - currentX) * 0.1;
+      currentY += (mouseY - currentY) * 0.1;
+      ambientGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+
+      if (Math.abs(mouseX - currentX) > 0.5 || Math.abs(mouseY - currentY) > 0.5) {
+        requestAnimationFrame(updateAmbientGlow);
+      } else {
+        isTicking = false;
+      }
+    }
+  }
+</script>
+</body>
+</html>
